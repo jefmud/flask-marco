@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block title %}Species Query{% endblock %}
+{% block content %}
+<h1>Species Query</h1>
+<form method='POST' action="{{url_for('species_query')}}">
+{{ form.csrf_token }}
+{{ form.detection_threshold.label }}<br>
+{{ form.detection_threshold }}<br>
+{{ form.species_select.label }}<br>
+{{ form.species_select }}<br>
+{{ form.species_confidence.label }}<br>
+{{ form.species_confidence }}<br>
+<br><button>Submit Query</button>
+</form>
+{% for error in form.errors %}
+<p>* {{error}}</p>
+{% endfor %}
+{% endblock %}

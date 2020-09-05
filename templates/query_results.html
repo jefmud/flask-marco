@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block title %}Query Results{% endblock %}
+{% block content %}
+    <h1>Query Results</h1>
+    <div>
+    <p>results returned = {{ recs.count() }}</p>
+    </div>
+    <table class="table table-striped">
+    <tbody>
+    {% for rec in recs %}
+        <tr>
+        <td><a href="{{url_for('view', captureID=rec.captureID)}}">{{rec.captureID}}</a></td>
+        <td>{{rec.mwePREDTOP}}({{rec.mweCONFTOP}})</td>
+        <td>{{rec.mwsPREDTOP}}({{rec.mwsCONFTOP}})</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <p>
+    <a href="{{ url_for('species_query') }}?page={{page-1}}"><< prev</a> | <a href="{{ url_for('species_query') }}?page={{page+1}}">next >></a>
+    </p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %}Serengeti Data Server{% endblock %}
+{% block content %}
+<h1>Serengeti Data Server @ WFU</h1>
+
+<p>Query Choices</p>
+<ul>
+<li><a href="{{ url_for('select') }}">Random Sample</a></li>
+<li><a href="{{ url_for('species_query') }}">Species Query</a></li>
+</ul>
+
+{% endblock %}

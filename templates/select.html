@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block title %}Select Records{% endblock %}
+{% block content %}
+    <h1>Select Records</h1>
+    <div class="input-group">
+    <a class="btn btn-primary" href="{{ url_for('select') }}" role="button">Random Sample</a>
+    </div>
+    <br>
+    <table class="table table-striped">
+    <tbody>
+    {% for rec in recs %}
+        <tr>
+        <td><a href="{{url_for('view', captureID=rec.captureID)}}">{{rec.captureID}}</a></td>
+        <td>{{rec.mwePREDTOP}}({{rec.mweCONFTOP}})</td>
+        <td>{{rec.mwsPREDTOP}}({{rec.mwsCONFTOP}})</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'layout.html'%}
+{% block title %}{% endblock %}
+{% block content %}
+<a href="{{recurl}}"><img width="720" src="{{recurl}}"></a>
+<hr>
+<p>
+prediction: <strong>{{rec.mwePREDTOP}}</strong> conf: <strong>{{rec.mweCONFTOP}}</strong>
+</p>
+<p>
+species: <strong>{{rec.mwsPREDTOP}}</strong> conf: <strong>{{rec.mwsCONFTOP}}</strong>
+</p>
+<p>
+count: <strong>{{rec.mwsCOUNT}}</strong> conf: <strong>{{rec.mwsCOUNTCONF}}</strong>
+</p>
+<p>
+{{rec}}
+</p>
+{% endblock %}
