@@ -21,6 +21,10 @@ idents = db["idents"]
 def index():
     return render_template('index.html')
 
+@app.route('/hello')
+def hello():
+    return "Hello"
+
 @app.route('/select')
 def select():
     skipcount = random.randint(1, 50000)
@@ -49,7 +53,7 @@ def species_query():
         return render_template('query_results.html', recs=recs, page=page)
     return render_template('species_query.html', form=form)
     
-    def api_service(req):
+def api_service(req):
     """a generic query interface"""
     query = {}
 
@@ -95,6 +99,9 @@ def species_query():
     enddate = req.args.get('end',None)
     if enddate:
         query['captureDATE'] = {'$lte': enddate }
+        
+    if startdate and enddate:
+        query['captureDATE'] = {'$gte': startdate, '$lte': enddate}
 
     # set skip if needed
     skip = req.args.get('skip', 0)
@@ -112,8 +119,6 @@ def species_query():
     except:
         limit = 0
 
-    print(query)
-    return []
     if limit > 0:
         recs = idents.find(query).skip(skip).limit(limit)
     else:
