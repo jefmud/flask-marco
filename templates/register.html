@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% from 'wtf_bootstrap.html' import bootstrap_form, bootstrap_field %}
+{% block title %}Register Form{% endblock %}
+
+{% block content %}
+<h1 class="title">Register</h1>
+
+{{ bootstrap_form(form) }}
+
+
+{% endblock %}

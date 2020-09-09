@@ -1,10 +1,11 @@
 # main.py
 from flask import (Flask, render_template, abort, redirect, request, url_for)
 from gevent.pywsgi import WSGIServer
-from forms import SpeciesQueryForm, GeneralQueryForm
+from forms import SpeciesQueryForm, GeneralQueryForm, RegisterForm
 import random
 import config
 import sys
+import time
 
 app = Flask(__name__)
 app.secret_key = 'jJKchjdofpow$Ru*d4s^28sMNe2'
@@ -21,13 +22,24 @@ idents = db["idents"]
 def index():
     return render_template('index.html')
 
-@app.route('/hello')
+@app.route('/sample')
 def hello():
-    return "Hello"
+    return render_template('sample.html')
+
+@app.route('/register', methods=['GET','POST'])
+def register_view():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print("validate")
+        print("firstname=", form.first.data)
+        print("lastname=", form.last.data)
+
+    return render_template('register.html', form=form)
 
 @app.route('/select')
 def select():
-    skipcount = random.randint(1, 50000)
+    skipcount = random.randint(1, 100000)
+    print(skipcount)
     recs = idents.find({'mwePREDTOP':'species', 'mweCONFTOP': {'$gt':0.85} }).skip(skipcount).limit(15)
     return render_template('select.html',recs=recs)
 
@@ -136,6 +148,7 @@ def view(captureID):
     dkey = {'captureID':captureID}
     rec = idents.find_one(dkey)
     if rec:
+        # the NAS is proxied through the serengeti server
         nas_url = 'http://serengeti.wfunet.wfu.edu/'
         recurl = nas_url + rec['pathname']
         return render_template('view.html', rec=rec, recurl=recurl)
@@ -159,12 +172,21 @@ def arg_exists(key):
         return True
     return False
 
+def test_deep_access():
+    """this just does a naive access skipping 2.8 million records"""
+    start = time.time()
+    x = idents.find().skip(2800000).limit(25)
+    print(dict(x[0]))
+    print('elapsed time for deep fetch = ', time.time() - start)
+
 if __name__ == '__main__':
+    # defaults for server, port 80 would require root access
     PORT = 5000
     HOST = '127.0.0.1'
 
     PORT = int(arg_val('--port', PORT))
     HOST = arg_val('--host', HOST)
+
     if arg_exists('--deploy'):
         http_server = WSGIServer(('', PORT), app)
         print("GEvent Greenlet server running on port {}".format(PORT))

@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import field %}
+{% block title %}Sample HTML{% endblock %}
+{% block content %}
+    <form>
+        {{ field('firstname', 'First Name') }}
+    </form>
+{% endblock %}

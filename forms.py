@@ -21,3 +21,7 @@ class GeneralQueryForm(FlaskForm):
     detection_threshold = FloatField('Detection Confidence Threshold', default=0.9, validators=[InputRequired()])
     species_select = SelectField('Species Select', choices=config.species_choices())
     species_confidence = FloatField('Species Confidence Threshold',  default=0.9, validators=[InputRequired()])
+
+class RegisterForm(FlaskForm):
+    first = StringField('First Name')
+    last = StringField('Last Name')
